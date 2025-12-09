@@ -2,6 +2,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:time_tracking_app/core/errors/failures.dart';
+import 'package:time_tracking_app/features/tasks/data/datasources/task_local_data_source.dart';
+import 'package:time_tracking_app/features/tasks/data/datasources/task_remote_data_source.dart';
+import 'package:time_tracking_app/features/tasks/data/models/task_model.dart';
+import 'package:time_tracking_app/features/tasks/data/repositories/task_repository_impl.dart';
 import 'package:time_tracking_app/features/tasks/domain/entities/task_status.dart';
 
 class MockRemoteDataSource extends Mock implements TaskRemoteDataSource {}

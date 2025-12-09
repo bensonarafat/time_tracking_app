@@ -1,5 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:time_tracking_app/features/tasks/data/datasources/task_remote_data_source.dart';
+import 'package:time_tracking_app/features/tasks/data/models/comment_model.dart';
+import 'package:time_tracking_app/features/tasks/data/repositories/comment_repository_impl.dart';
 
 class MockTaskRemoteDataSource extends Mock implements TaskRemoteDataSource {}
 
