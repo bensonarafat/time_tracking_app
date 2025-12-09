@@ -5,32 +5,32 @@ import 'package:fpdart/fpdart.dart' hide Task;
 class MockTaskRepository extends Mock implements TaskRepository {}
 
 void main() {
-  late EditTask usecase;
+  late CreateTask usecase;
   late MockTaskRepository mockTaskRepository;
 
   setUp(() {
     mockTaskRepository = MockTaskRepository();
-    usecase = EditTask(mockTaskRepository);
+    usecase = CreateTask(mockTaskRepository);
   });
 
-  final content = "Update to content";
-  final id = "123";
-  final updatedTask = Task(
+  const content = "My first task for the day";
+  final createdTask = Task(
     id: "123",
     content: content,
-    createdAt: DateTime.now(),
+    status: TaskStatus.todo,
+    createdAt: DateTime(2025, 12, 9),
   );
 
-  group("UpdateTask", () {
-    test("should update task successfully with task content", () async {
+  group("CreateTask", () {
+    test("should create task successfully with content", () async {
       when(
-        () => mockTaskRepository.updateTask(taskId: id, content: content),
-      ).thenAnswer((_) async => Right(updatedTask));
-      final result = await usecase(taskId: id, content: content);
-      expect(result, Right(updatedTask));
-      verify(
-        () => mockTaskRepository.updateTask(taskId: id, content: content),
-      ).called(1);
+        () => mockTaskRepository.createTask(content),
+      ).thenAnswer((_) async => Right(createdTask));
+
+      final result = await usecase(content);
+
+      expect(result, Right(createdTask));
+      verify(() => mockTaskRepository.createTask(content)).called(1);
       verifyNoMoreInteractions(mockTaskRepository);
     });
   });

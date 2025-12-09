@@ -13,22 +13,24 @@ void main() {
     usecase = EditTask(mockTaskRepository);
   });
 
-  final task = Task(
+  final content = "Update to content";
+  final id = "123";
+  final updatedTask = Task(
     id: "123",
-    content: "This is a task",
-    status: TaskStatus.todo,
+    content: content,
     createdAt: DateTime.now(),
   );
-  final updated = task.copyWith(content: "This is an updated task");
 
   group("UpdateTask", () {
-    test("should update task successfully with task model", () async {
+    test("should update task successfully with task content", () async {
       when(
-        () => mockTaskRepository.updateTask(task: updated),
-      ).thenAnswer((_) async => Right(updated));
-      final result = await usecase(updated);
-      expect(result, Right(updated));
-      verify(() => mockTaskRepository.updateTask(task: updated)).called(1);
+        () => mockTaskRepository.updateTask(taskId: id, content: content),
+      ).thenAnswer((_) async => Right(updatedTask));
+      final result = await usecase(taskId: id, content: content);
+      expect(result, Right(updatedTask));
+      verify(
+        () => mockTaskRepository.updateTask(taskId: id, content: content),
+      ).called(1);
       verifyNoMoreInteractions(mockTaskRepository);
     });
   });
