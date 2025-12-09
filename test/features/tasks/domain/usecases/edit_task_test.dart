@@ -1,6 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
+import 'package:fpdart/fpdart.dart' hide Task;
 import 'package:mocktail/mocktail.dart';
+import 'package:time_tracking_app/features/tasks/domain/entities/task.dart';
+import 'package:time_tracking_app/features/tasks/domain/repositories/task_repository.dart';
+import 'package:time_tracking_app/features/tasks/domain/usecases/edit_task.dart';
 
 class MockTaskRepository extends Mock implements TaskRepository {}
 

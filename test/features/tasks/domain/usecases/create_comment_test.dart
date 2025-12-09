@@ -1,6 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:time_tracking_app/core/errors/failures.dart';
+import 'package:time_tracking_app/features/tasks/domain/entities/comment.dart';
+import 'package:time_tracking_app/features/tasks/domain/repositories/comment_repository.dart';
+import 'package:time_tracking_app/features/tasks/domain/usecases/create_comment.dart';
 
 class MockCommentRepository extends Mock implements CommentRepository {}
 
