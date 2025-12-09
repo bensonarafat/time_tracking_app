@@ -7,14 +7,21 @@ import 'package:time_tracking_app/features/tasks/domain/entities/task.dart';
 import 'package:time_tracking_app/features/tasks/domain/entities/task_status.dart';
 import 'package:time_tracking_app/features/tasks/domain/usecases/create_task.dart';
 import 'package:time_tracking_app/features/tasks/domain/usecases/edit_task.dart';
+import 'package:time_tracking_app/features/tasks/domain/usecases/fetch_task.dart';
 import 'package:time_tracking_app/features/tasks/domain/usecases/fetch_tasks.dart';
+import 'package:time_tracking_app/features/tasks/domain/usecases/task_timer.dart';
 import 'package:time_tracking_app/features/tasks/domain/usecases/update_task_status.dart';
+import 'package:time_tracking_app/features/tasks/presentation/bloc/task/task_bloc.dart';
 
 class MockFetchTasks extends Mock implements FetchTasks {}
+
+class MockFetchTask extends Mock implements FetchTask {}
 
 class MockCreateTask extends Mock implements CreateTask {}
 
 class MockEditTask extends Mock implements EditTask {}
+
+class MockTaskTimer extends Mock implements TaskTimer {}
 
 class MockUpdateTaskStatus extends Mock implements UpdateTaskStatus {}
 
@@ -41,21 +48,27 @@ final testTasks = [testTask, testTask2];
 
 void main() {
   late MockFetchTasks mockFetchTasks;
+  late MockFetchTask mockFetchTask;
   late MockCreateTask mockCreateTask;
   late MockEditTask mockEditTask;
+  late MockTaskTimer mockTaskTimer;
   late MockUpdateTaskStatus mockUpdateTaskStatus;
   late TaskBloc taskBloc;
 
   setUp(() {
     mockFetchTasks = MockFetchTasks();
+    mockFetchTask = MockFetchTask();
     mockCreateTask = MockCreateTask();
     mockEditTask = MockEditTask();
+    mockTaskTimer = MockTaskTimer();
     mockUpdateTaskStatus = MockUpdateTaskStatus();
 
     taskBloc = TaskBloc(
       getTasks: mockFetchTasks,
+      getTask: mockFetchTask,
       createTask: mockCreateTask,
       updateTask: mockEditTask,
+      taskTimer: mockTaskTimer,
       updateTaskStatus: mockUpdateTaskStatus,
     );
   });

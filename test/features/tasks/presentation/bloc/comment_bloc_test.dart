@@ -6,6 +6,7 @@ import 'package:time_tracking_app/core/errors/failures.dart';
 import 'package:time_tracking_app/features/tasks/domain/entities/comment.dart';
 import 'package:time_tracking_app/features/tasks/domain/usecases/create_comment.dart';
 import 'package:time_tracking_app/features/tasks/domain/usecases/fetch_comments.dart';
+import 'package:time_tracking_app/features/tasks/presentation/bloc/comment/comment_bloc.dart';
 
 class MockFetchComments extends Mock implements FetchComments {}
 
