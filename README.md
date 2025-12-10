@@ -1,16 +1,40 @@
-# time_tracking_app
+# Time tracking assessment 
+This project follows clean architecture with a clear separation of concerns across three main layers 
 
-A new Flutter project.
+### Domain Layer
+Core business logic 
+ - Entities 
+ - Repository Interfaces 
+ - Use cases 
+### Data Layer 
+Data Sources & implementation 
+ - Models 
+ - API Client 
+ - Repository Implementations 
+### Presentation Layer 
+ - Bloc 
+ - Pages 
+ - Widget (Reusable UI components)
 
-## Getting Started
+I also wrote Unit tests for the Repository Interfaces, ApiClient, Repository Implementations, and Blocs. all tests will be found in the test folder.
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+## How it works 
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### CI
+The project includes Github actions for automated testing and building: 
+Continuous Integration (.github/workflows/ci.yml)
+Runs on every push to main and pull requests
+
+ - Executes:
+
+   - Code formatting check
+   - Static analysis
+   - Unit tests with coverage
+
+### Final note 
+
+Building this project was both fun and insightful.
+The detailed API documentation made the workflow smooth, and applying Clean Architecture added structure and clarity.
+I’m eager to hear your feedback!
