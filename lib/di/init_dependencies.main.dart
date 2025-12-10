@@ -100,10 +100,7 @@ void _initDataSources() {
   serviceLocator.registerLazySingleton<TaskRemoteDataSource>(
     () => TaskRemoteDataSourceImpl(
       client: serviceLocator(),
-      apiToken: const String.fromEnvironment(
-        "TODOIST_API_TOKEN",
-        defaultValue: "dd7a8886bb534e7266dd579a24baea9eb7e44c1d",
-      ),
+      apiToken: const String.fromEnvironment("TODOIST_API_TOKEN"),
     ),
   );
 

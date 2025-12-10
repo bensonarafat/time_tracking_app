@@ -26,11 +26,8 @@ class _HistoryPageState extends State<HistoryPage> {
     return Scaffold(
       appBar: AppBar(title: const Text('Task History')),
       body: BlocBuilder<TaskBloc, TaskState>(
+        buildWhen: (previous, next) => next is TasksLoadedHistory,
         builder: (context, state) {
-          if (state is TaskLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
           if (state is TasksLoadedHistory) {
             final completedTasks = state.tasks;
 

@@ -64,11 +64,13 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
         title: const Text('Task Details'),
         actions: [
           BlocBuilder<TaskBloc, TaskState>(
+            buildWhen: (previous, next) =>
+                next is TaskLoading || next is TaskLoaded,
             builder: (context, state) {
-              if (state is! TasksLoaded) return const SizedBox.shrink();
+              if (state is! TaskLoaded) return const SizedBox.shrink();
 
-              final task = state.getTaskById(widget.taskId);
-              if (task == null || _isEditing) return const SizedBox.shrink();
+              final task = state.task;
+              if (_isEditing) return const SizedBox.shrink();
 
               return PopupMenuButton<String>(
                 onSelected: (value) {
@@ -96,6 +98,8 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
         ],
       ),
       body: BlocBuilder<TaskBloc, TaskState>(
+        buildWhen: (previous, next) =>
+            next is TaskLoading || next is TaskLoaded,
         builder: (context, state) {
           if (state is TaskLoading) {
             return const Center(child: CircularProgressIndicator());

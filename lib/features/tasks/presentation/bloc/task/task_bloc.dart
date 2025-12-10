@@ -99,7 +99,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         if (index != -1) {
           cachedTasks[index] = task;
         }
-        emit(TaskUpdated(task));
+        emit(TaskLoaded(task));
         emit(TasksLoaded(cachedTasks));
       },
     );

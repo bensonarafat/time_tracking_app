@@ -62,15 +62,6 @@ final class TaskCreated extends TaskState {
   List<Object?> get props => [task];
 }
 
-class TaskUpdated extends TaskState {
-  final Task task;
-
-  const TaskUpdated(this.task);
-
-  @override
-  List<Object?> get props => [task];
-}
-
 class StatusChanged extends TaskState {
   final Task task;
   final TaskStatus status;
