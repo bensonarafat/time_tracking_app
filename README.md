@@ -60,6 +60,12 @@ Then pass the `--dart-define` flag when running the app e.g
 flutter run --dart-define=TODOIST_API_TOKEN=API_KEYHERE
 ```
 
+### Demo  
+|         |              |            |
+|---------|--------------|------------|
+| <img src="https://github.com/bensonarafat/time_tracking_app/blob/main/gifs/kanban.gif?raw=true" width="150"/> <br/> Kanban | <img src="https://github.com/bensonarafat/time_tracking_app/blob/main/gifs/add_new.gif?raw=true" width="150"/> <br/> Create Task | <img src="https://github.com/bensonarafat/time_tracking_app/blob/main/gifs/drag.gif?raw=true" width="150"/> <br/> Drag and Drop |
+| <img src="https://github.com/bensonarafat/time_tracking_app/blob/main/gifs/comment.gif?raw=true" width="150"/> <br/> Comment | <img src="https://github.com/bensonarafat/time_tracking_app/blob/main/gifs/timer.gif?raw=true" width="150"/> <br/> Timer | <img src="https://github.com/bensonarafat/time_tracking_app/blob/main/gifs/history.gif?raw=true" width="150"/> <br/> History |
+
 ### CI
 The project includes Github actions for automated testing and building: 
 Continuous Integration (.github/workflows/ci.yml)
