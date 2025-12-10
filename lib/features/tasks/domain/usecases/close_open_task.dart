@@ -4,12 +4,12 @@ import '../../../../core/errors/failures.dart';
 import '../entities/task.dart';
 import '../repositories/task_repository.dart';
 
-class FetchTasks {
+class CloseOpenTask {
   final TaskRepository repository;
 
-  FetchTasks(this.repository);
+  CloseOpenTask(this.repository);
 
-  Future<Either<Failure, List<Task>>> call({bool history = false}) async {
-    return await repository.fetchTasks(isHistory: history);
+  Future<Either<Failure, void>> call(Task task, {bool isClose = true}) async {
+    return await repository.closeOpenTask(task, isClose: isClose);
   }
 }

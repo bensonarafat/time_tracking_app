@@ -14,6 +14,7 @@ abstract class TaskRepository {
     String taskId,
     TaskStatus status,
   );
-  Future<Either<Failure, List<Task>>> fetchTasks();
+  Future<Either<Failure, void>> closeOpenTask(Task task, {bool isClose = true});
+  Future<Either<Failure, List<Task>>> fetchTasks({bool isHistory = false});
   Future<Either<Failure, Task>> fetchTask(String taskId);
 }

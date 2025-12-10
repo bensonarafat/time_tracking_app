@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-
 import '../../domain/entities/task.dart';
 import '../../domain/entities/task_status.dart';
 import '../widgets/task_timer_widget.dart';
+import 'comment_count_widget.dart';
 import 'task_input_field.dart';
 
 class KanbanBoardWidget extends StatefulWidget {
@@ -304,6 +304,8 @@ class _KanbanBoardWidgetState extends State<KanbanBoardWidget> {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
+          SizedBox(height: 8),
+          CommentCountWidget(taskId: task.id),
           SizedBox(height: 8),
           TaskTimerWidget(taskId: task.id),
         ],

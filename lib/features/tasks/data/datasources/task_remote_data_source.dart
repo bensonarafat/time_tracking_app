@@ -10,6 +10,7 @@ abstract interface class TaskRemoteDataSource {
   Future<TaskModel> createTask(String content);
   Future<TaskModel> updateTask(String taskId, {String? content});
   Future<List<TaskModel>> getTasks();
+  Future<void> closeOpenTask(String taskId, {bool isClose = false});
   Future<TaskModel> getTask(String taskId);
   Future<CommentModel> createComment(String taskId, String content);
   Future<List<CommentModel>> getComments(String taskId);
@@ -112,5 +113,15 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
     } else {
       throw Exception('Failed to fetch task ${response.statusCode}');
     }
+  }
+
+  @override
+  Future<void> closeOpenTask(String taskId, {bool isClose = false}) async {
+    await client.post(
+      Uri.parse(
+        '${Constants.baseUrl}/tasks/$taskId/${isClose ? "close" : "reopen"}',
+      ),
+      headers: _headers,
+    );
   }
 }

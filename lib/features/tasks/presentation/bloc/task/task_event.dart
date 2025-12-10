@@ -5,10 +5,11 @@ sealed class TaskEvent extends Equatable {
 }
 
 class LoadTasksEvent extends TaskEvent {
-  const LoadTasksEvent();
+  final bool history;
+  const LoadTasksEvent({this.history = false});
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [history];
 }
 
 class LoadTaskEvent extends TaskEvent {
@@ -45,4 +46,12 @@ class ChangeTaskStatus extends TaskEvent {
 
   @override
   List<Object?> get props => [taskId, status];
+}
+
+class CloseOpenTaskEvent extends TaskEvent {
+  final Task task;
+  final bool? isClose;
+  const CloseOpenTaskEvent({this.isClose = false, required this.task});
+  @override
+  List<Object?> get props => [isClose, task];
 }

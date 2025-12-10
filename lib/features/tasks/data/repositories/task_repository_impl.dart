@@ -1,7 +1,8 @@
-import 'package:fpdart/fpdart.dart';
+import 'package:fpdart/fpdart.dart' hide Task;
 
 import '../../../../core/errors/exceptions.dart';
 import '../../../../core/errors/failures.dart';
+import '../../domain/entities/task.dart';
 import '../../domain/entities/task_status.dart';
 import '../../domain/repositories/task_repository.dart';
 import '../datasources/task_local_data_source.dart';
@@ -29,11 +30,19 @@ class TaskRepositoryImpl implements TaskRepository {
   }
 
   @override
-  Future<Either<Failure, List<TaskModel>>> fetchTasks() async {
+  Future<Either<Failure, List<TaskModel>>> fetchTasks({
+    bool isHistory = false,
+  }) async {
     try {
-      final remoteTasks = await remoteDataSource.getTasks();
+      List<TaskModel> allTasks;
+      if (isHistory) {
+        allTasks = await localDataSource.getHistoryTasks();
+      } else {
+        allTasks = await remoteDataSource.getTasks();
+      }
+
       final tasks = <TaskModel>[];
-      for (var remoteTask in remoteTasks) {
+      for (var remoteTask in allTasks) {
         final status = await localDataSource.getTaskStatus(remoteTask.id);
         tasks.add(remoteTask.copyWith(status: status ?? remoteTask.status));
       }
@@ -79,6 +88,29 @@ class TaskRepositoryImpl implements TaskRepository {
   ) async {
     try {
       await localDataSource.saveTaskStatus(taskId, status);
+      return Right(null);
+    } catch (e) {
+      return Left(ServerFailure('Unexpected error: $e'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> closeOpenTask(
+    Task task, {
+    bool isClose = false,
+  }) async {
+    try {
+      TaskModel tk = task as TaskModel;
+      await remoteDataSource.closeOpenTask(task.id, isClose: isClose);
+      if (isClose) {
+        final completedTask = tk.copyWith(
+          dateCompleted: DateTime.now(),
+          isCompleted: true,
+        );
+        await localDataSource.saveHistoryTask(completedTask);
+      } else {
+        await localDataSource.removeHistoryTask(tk.id);
+      }
       return Right(null);
     } catch (e) {
       return Left(ServerFailure('Unexpected error: $e'));

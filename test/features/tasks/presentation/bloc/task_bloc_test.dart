@@ -5,6 +5,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:time_tracking_app/core/errors/failures.dart';
 import 'package:time_tracking_app/features/tasks/domain/entities/task.dart';
 import 'package:time_tracking_app/features/tasks/domain/entities/task_status.dart';
+import 'package:time_tracking_app/features/tasks/domain/usecases/close_open_task.dart';
 import 'package:time_tracking_app/features/tasks/domain/usecases/create_task.dart';
 import 'package:time_tracking_app/features/tasks/domain/usecases/edit_task.dart';
 import 'package:time_tracking_app/features/tasks/domain/usecases/fetch_task.dart';
@@ -22,6 +23,8 @@ class MockCreateTask extends Mock implements CreateTask {}
 class MockEditTask extends Mock implements EditTask {}
 
 class MockTaskTimer extends Mock implements TaskTimer {}
+
+class MockCloseOpenTask extends Mock implements CloseOpenTask {}
 
 class MockUpdateTaskStatus extends Mock implements UpdateTaskStatus {}
 
@@ -53,6 +56,7 @@ void main() {
   late MockEditTask mockEditTask;
   late MockTaskTimer mockTaskTimer;
   late MockUpdateTaskStatus mockUpdateTaskStatus;
+  late MockCloseOpenTask mockCloseOpenTask;
   late TaskBloc taskBloc;
 
   setUp(() {
@@ -62,6 +66,7 @@ void main() {
     mockEditTask = MockEditTask();
     mockTaskTimer = MockTaskTimer();
     mockUpdateTaskStatus = MockUpdateTaskStatus();
+    mockCloseOpenTask = MockCloseOpenTask();
 
     taskBloc = TaskBloc(
       getTasks: mockFetchTasks,
@@ -70,6 +75,7 @@ void main() {
       updateTask: mockEditTask,
       taskTimer: mockTaskTimer,
       updateTaskStatus: mockUpdateTaskStatus,
+      closeOpenTask: mockCloseOpenTask,
     );
   });
 

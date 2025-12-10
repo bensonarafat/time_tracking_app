@@ -22,18 +22,6 @@ final class TasksLoaded extends TaskState {
   @override
   List<Object?> get props => [tasks];
 
-  List<Task> getTasksByStatus(TaskStatus status) {
-    return tasks.where((task) => task.status == status).toList();
-  }
-
-  List<Task> get completedTasks {
-    return tasks.where((task) => task.status == TaskStatus.done).toList();
-  }
-
-  List<Task> get activeTasks {
-    return tasks.where((task) => task.status != TaskStatus.done).toList();
-  }
-
   Task? getTaskById(String id) {
     try {
       return tasks.firstWhere((task) => task.id == id);
@@ -70,6 +58,16 @@ class TaskUpdated extends TaskState {
   List<Object?> get props => [task];
 }
 
+class StatusChanged extends TaskState {
+  final Task task;
+  final TaskStatus status;
+
+  const StatusChanged({required this.task, required this.status});
+
+  @override
+  List<Object?> get props => [task, status];
+}
+
 final class TaskError extends TaskState {
   final String message;
 
@@ -78,3 +76,5 @@ final class TaskError extends TaskState {
   @override
   List<Object?> get props => [message];
 }
+
+final class CloseOpen extends TaskState {}

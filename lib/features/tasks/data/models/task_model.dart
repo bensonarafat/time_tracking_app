@@ -21,6 +21,17 @@ class TaskModel extends Task {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'content': content,
+      'status': status.name,
+      'createdAt': createdAt.toIso8601String(),
+      'isCompleted': isCompleted,
+      'dateCompleted': dateCompleted?.toIso8601String(),
+    };
+  }
+
   @override
   TaskModel copyWith({
     String? id,

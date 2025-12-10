@@ -1,6 +1,7 @@
 import 'package:hive/hive.dart';
 
 import '../../domain/entities/task_status.dart';
+import '../models/task_model.dart';
 
 abstract interface class TaskLocalDataSource {
   Future<void> saveTaskStatus(String taskId, TaskStatus status);
@@ -11,15 +12,20 @@ abstract interface class TaskLocalDataSource {
     Duration? timeSpent,
   );
   Future<Map<String, dynamic>> getTimerState(String taskId);
+  Future<void> saveHistoryTask(TaskModel task);
+  Future<void> removeHistoryTask(String taskId);
+  Future<List<TaskModel>> getHistoryTasks();
 }
 
 class TaskLocalDataSourceImpl implements TaskLocalDataSource {
   final Box<String> taskStatusBox;
   final Box<Map<String, dynamic>> timerStateBox;
+  final Box<Map<String, dynamic>> historyBox;
 
   TaskLocalDataSourceImpl({
     required this.taskStatusBox,
     required this.timerStateBox,
+    required this.historyBox,
   });
 
   @override
@@ -71,5 +77,35 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
     taskStatusBox.write(() {
       taskStatusBox.put(taskId, status.name);
     });
+  }
+
+  @override
+  Future<void> saveHistoryTask(TaskModel task) async {
+    await historyBox.write(() {
+      historyBox.put(task.id, task.toJson());
+    });
+  }
+
+  @override
+  Future<void> removeHistoryTask(String taskId) async {
+    await historyBox.write(() {
+      historyBox.delete(taskId);
+    });
+  }
+
+  @override
+  Future<List<TaskModel>> getHistoryTasks() async {
+    final tasks = <TaskModel>[];
+
+    for (var key in historyBox.keys) {
+      final taskJson = historyBox.get(key);
+      if (taskJson != null) {
+        final taskData = taskJson;
+        final task = TaskModel.fromJson(taskData);
+        tasks.add(task);
+      }
+    }
+
+    return tasks;
   }
 }

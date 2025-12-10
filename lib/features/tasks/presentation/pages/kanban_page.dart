@@ -52,6 +52,13 @@ class KanbanPage extends StatelessWidget {
                 duration: Duration(seconds: 2),
               ),
             );
+          } else if (state is StatusChanged) {
+            context.read<TaskBloc>().add(
+              CloseOpenTaskEvent(
+                task: state.task,
+                isClose: state.status == TaskStatus.done,
+              ),
+            );
           }
         },
         builder: (context, state) {

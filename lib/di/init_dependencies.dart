@@ -10,6 +10,7 @@ import '../features/tasks/data/repositories/time_tracker_repository_impl.dart';
 import '../features/tasks/domain/repositories/comment_repository.dart';
 import '../features/tasks/domain/repositories/task_repository.dart';
 import '../features/tasks/domain/repositories/timer_tracker_repository.dart';
+import '../features/tasks/domain/usecases/close_open_task.dart';
 import '../features/tasks/domain/usecases/create_comment.dart';
 import '../features/tasks/domain/usecases/create_task.dart';
 import '../features/tasks/domain/usecases/edit_task.dart';
