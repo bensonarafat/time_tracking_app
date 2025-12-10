@@ -24,15 +24,8 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
   @override
   void initState() {
     super.initState();
+    context.read<TaskBloc>().add(LoadTaskEvent(widget.taskId));
     context.read<CommentBloc>().add(LoadCommentsEvent(widget.taskId));
-  }
-
-  Task? _getCurrentTask(BuildContext context) {
-    final state = context.watch<TaskBloc>().state;
-    if (state is TasksLoaded) {
-      return state.getTaskById(widget.taskId);
-    }
-    return null;
   }
 
   void _addComment(String value) {
@@ -102,28 +95,14 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
           ),
         ],
       ),
-      body: BlocListener<TaskBloc, TaskState>(
-        listener: (context, state) {
-          if (state is TaskError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                backgroundColor: Colors.red,
-              ),
-            );
+      body: BlocBuilder<TaskBloc, TaskState>(
+        builder: (context, state) {
+          if (state is TaskLoading) {
+            return const Center(child: CircularProgressIndicator());
           }
-        },
-        child: BlocBuilder<TaskBloc, TaskState>(
-          builder: (context, state) {
-            if (state is TaskLoading && state is! TasksLoaded) {
-              return const Center(child: CircularProgressIndicator());
-            }
 
-            final task = _getCurrentTask(context);
-
-            if (task == null) {
-              return const Center(child: Text('Task not found'));
-            }
+          if (state is TaskLoaded) {
+            Task task = state.task;
 
             return BlocListener<CommentBloc, CommentState>(
               listener: (context, commentState) {
@@ -161,8 +140,10 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                 ),
               ),
             );
-          },
-        ),
+          }
+
+          return Center(child: Text("Task not found"));
+        },
       ),
     );
   }

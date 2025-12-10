@@ -5,11 +5,16 @@ sealed class TaskEvent extends Equatable {
 }
 
 class LoadTasksEvent extends TaskEvent {
-  final bool history;
-  const LoadTasksEvent({this.history = false});
+  const LoadTasksEvent();
 
   @override
-  List<Object?> get props => [history];
+  List<Object?> get props => [];
+}
+
+class LoadHistoryTasksEvent extends TaskEvent {
+  const LoadHistoryTasksEvent();
+  @override
+  List<Object?> get props => [];
 }
 
 class LoadTaskEvent extends TaskEvent {

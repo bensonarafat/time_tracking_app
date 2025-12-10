@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
+import 'package:time_tracking_app/features/tasks/domain/usecases/fetch_history_tasks.dart';
 import '../features/tasks/data/datasources/task_local_data_source.dart';
 import '../features/tasks/data/datasources/task_remote_data_source.dart';
 import '../features/tasks/data/repositories/comment_repository_impl.dart';

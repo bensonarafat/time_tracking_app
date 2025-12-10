@@ -29,6 +29,16 @@ class KanbanPage extends StatelessWidget {
         ],
       ),
       body: BlocConsumer<TaskBloc, TaskState>(
+        buildWhen: (previous, next) {
+          return next is TasksLoading ||
+              next is TasksLoaded ||
+              next is TaskError;
+        },
+        listenWhen: (previous, next) {
+          return next is TaskError ||
+              next is TaskCreated ||
+              next is StatusChanged;
+        },
         listener: (context, state) {
           if (state is TaskError) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -62,15 +72,10 @@ class KanbanPage extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          if (state is TaskLoading && state is! TasksLoaded) {
+          if (state is TasksLoading) {
             return _buildLoadingWidget();
           }
-
           if (state is TasksLoaded) {
-            if (state.tasks.isEmpty) {
-              return _buildEmptyWidget();
-            }
-
             return KanbanBoardWidget(
               tasks: state.tasks,
               onAddTask: (String content) {
@@ -100,25 +105,6 @@ class KanbanPage extends StatelessWidget {
         CircularProgressIndicator(),
         SizedBox(height: 16),
         Text('Loading tasks...'),
-      ],
-    ),
-  );
-
-  Widget _buildEmptyWidget() => Center(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(Icons.task_alt, size: 64, color: Colors.grey[400]),
-        const SizedBox(height: 16),
-        Text(
-          'No tasks yet',
-          style: TextStyle(fontSize: 18, color: Colors.grey[600]),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'Create your first task to get started',
-          style: TextStyle(fontSize: 14, color: Colors.grey[500]),
-        ),
       ],
     ),
   );

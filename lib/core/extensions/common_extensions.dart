@@ -20,9 +20,12 @@ extension DateTimeFormatting on DateTime {
     final month = this.month;
     final year = this.year;
 
-    final hour = this.hour;
+    int hour = this.hour;
     final minute = this.minute.toString().padLeft(2, '0');
 
-    return '$day/$month/$year $hour:$minute';
+    final period = hour >= 12 ? 'PM' : 'AM';
+    hour = hour % 12 == 0 ? 12 : hour % 12;
+
+    return '$day/$month/$year $hour:$minute $period';
   }
 }

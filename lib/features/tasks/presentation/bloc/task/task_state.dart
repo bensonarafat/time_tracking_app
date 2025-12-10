@@ -10,8 +10,8 @@ final class TaskInitial extends TaskState {
   const TaskInitial();
 }
 
-final class TaskLoading extends TaskState {
-  const TaskLoading();
+final class TasksLoading extends TaskState {
+  const TasksLoading();
 }
 
 final class TasksLoaded extends TaskState {
@@ -29,6 +29,19 @@ final class TasksLoaded extends TaskState {
       return null;
     }
   }
+}
+
+final class TaskLoading extends TaskState {
+  const TaskLoading();
+}
+
+final class TasksLoadedHistory extends TaskState {
+  final List<Task> tasks;
+
+  const TasksLoadedHistory(this.tasks);
+
+  @override
+  List<Object?> get props => [tasks];
 }
 
 final class TaskLoaded extends TaskState {

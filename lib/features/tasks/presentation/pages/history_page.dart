@@ -17,7 +17,7 @@ class HistoryPage extends StatefulWidget {
 class _HistoryPageState extends State<HistoryPage> {
   @override
   void initState() {
-    context.read<TaskBloc>().add(LoadTasksEvent(history: true));
+    context.read<TaskBloc>().add(LoadHistoryTasksEvent());
     super.initState();
   }
 
@@ -31,7 +31,7 @@ class _HistoryPageState extends State<HistoryPage> {
             return const Center(child: CircularProgressIndicator());
           }
 
-          if (state is TasksLoaded) {
+          if (state is TasksLoadedHistory) {
             final completedTasks = state.tasks;
 
             if (completedTasks.isEmpty) {
@@ -54,7 +54,6 @@ class _HistoryPageState extends State<HistoryPage> {
                 ),
               );
             }
-
             return Column(
               children: [
                 Expanded(
@@ -131,7 +130,7 @@ class _HistoryPageState extends State<HistoryPage> {
                   ),
                 ],
               ),
-              TaskTimerWidget(taskId: task.id),
+              TaskTimerWidget(taskId: task.id, isHistory: true),
             ],
           ),
         ),

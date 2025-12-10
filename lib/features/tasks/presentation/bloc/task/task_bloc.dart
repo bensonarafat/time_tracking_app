@@ -6,6 +6,7 @@ import '../../../domain/entities/task_status.dart';
 import '../../../domain/usecases/close_open_task.dart';
 import '../../../domain/usecases/create_task.dart';
 import '../../../domain/usecases/edit_task.dart';
+import '../../../domain/usecases/fetch_history_tasks.dart';
 import '../../../domain/usecases/fetch_task.dart';
 import '../../../domain/usecases/fetch_tasks.dart';
 import '../../../domain/usecases/task_timer.dart';
@@ -22,6 +23,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   final TaskTimer taskTimer;
   final CloseOpenTask closeOpenTask;
   final UpdateTaskStatus updateTaskStatus;
+  final FetchHistoryTasks getHistoryTasks;
   List<Task> cachedTasks = [];
   TaskBloc({
     required this.createTask,
@@ -30,6 +32,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     required this.updateTask,
     required this.taskTimer,
     required this.updateTaskStatus,
+    required this.getHistoryTasks,
     required this.closeOpenTask,
   }) : super(const TaskInitial()) {
     on<LoadTasksEvent>(_onLoadTasks);
@@ -38,14 +41,15 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     on<UpdateTaskEvent>(_onUpdateTask);
     on<ChangeTaskStatus>(_onChangeTaskStatus);
     on<CloseOpenTaskEvent>(_onCloseOpenTask);
+    on<LoadHistoryTasksEvent>(_onLoadHistoryTasks);
   }
 
   Future<void> _onLoadTasks(
     LoadTasksEvent event,
     Emitter<TaskState> emit,
   ) async {
-    emit(const TaskLoading());
-    final result = await getTasks(history: event.history);
+    emit(const TasksLoading());
+    final result = await getTasks();
     result.fold((failure) => emit(TaskError(failure.message)), (tasks) {
       cachedTasks = tasks;
       emit(TasksLoaded(tasks));
@@ -151,5 +155,15 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         emit(TasksLoaded(cachedTasks));
       },
     );
+  }
+
+  Future<void> _onLoadHistoryTasks(
+    LoadHistoryTasksEvent event,
+    Emitter<TaskState> emit,
+  ) async {
+    final result = await getHistoryTasks();
+    result.fold((failure) => emit(TaskError(failure.message)), (tasks) {
+      emit(TasksLoadedHistory(tasks));
+    });
   }
 }

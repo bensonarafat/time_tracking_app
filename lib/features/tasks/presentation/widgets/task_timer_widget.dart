@@ -9,9 +9,12 @@ import '../bloc/timer/timer_bloc.dart';
 
 class TaskTimerWidget extends StatefulWidget {
   final String taskId;
-  final TimerTracker? initialTimer;
-
-  const TaskTimerWidget({super.key, required this.taskId, this.initialTimer});
+  final bool isHistory;
+  const TaskTimerWidget({
+    super.key,
+    required this.taskId,
+    this.isHistory = false,
+  });
 
   @override
   State<TaskTimerWidget> createState() => _TaskTimerWidgetState();
@@ -24,7 +27,7 @@ class _TaskTimerWidgetState extends State<TaskTimerWidget> {
   @override
   void initState() {
     super.initState();
-    _currentTimer = widget.initialTimer;
+
     context.read<TimerBloc>().add(GetTimerEvent(widget.taskId));
     _startPeriodicUpdate();
   }
@@ -82,7 +85,29 @@ class _TaskTimerWidgetState extends State<TaskTimerWidget> {
           });
         }
       },
-      child: _buildTimerDisplay(),
+      child: widget.isHistory
+          ? Container(
+              padding: EdgeInsets.all(8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Time Spent",
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    _currentTimer?.currentTimeSpent.format() ?? "",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green,
+                      fontFeatures: const [FontFeature.tabularFigures()],
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : _buildTimerDisplay(),
     );
   }
 

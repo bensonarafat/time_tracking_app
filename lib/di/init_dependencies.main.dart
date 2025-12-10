@@ -45,6 +45,7 @@ void _initBloc() {
       taskTimer: serviceLocator(),
       updateTaskStatus: serviceLocator(),
       closeOpenTask: serviceLocator(),
+      getHistoryTasks: serviceLocator(),
     ),
   );
 
@@ -73,6 +74,9 @@ void _initUseCases() {
     () => UpdateTaskStatus(serviceLocator()),
   );
   serviceLocator.registerLazySingleton(() => CloseOpenTask(serviceLocator()));
+  serviceLocator.registerLazySingleton(
+    () => FetchHistoryTasks(serviceLocator()),
+  );
 }
 
 void _initRepositories() {

@@ -4,12 +4,12 @@ import '../../../../core/errors/failures.dart';
 import '../entities/task.dart';
 import '../repositories/task_repository.dart';
 
-class FetchTasks {
+class FetchHistoryTasks {
   final TaskRepository repository;
 
-  FetchTasks(this.repository);
+  FetchHistoryTasks(this.repository);
 
   Future<Either<Failure, List<Task>>> call() async {
-    return await repository.fetchTasks();
+    return await repository.fetchHistoryTasks();
   }
 }

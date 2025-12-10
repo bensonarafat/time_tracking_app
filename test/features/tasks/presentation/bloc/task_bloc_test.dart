@@ -8,6 +8,7 @@ import 'package:time_tracking_app/features/tasks/domain/entities/task_status.dar
 import 'package:time_tracking_app/features/tasks/domain/usecases/close_open_task.dart';
 import 'package:time_tracking_app/features/tasks/domain/usecases/create_task.dart';
 import 'package:time_tracking_app/features/tasks/domain/usecases/edit_task.dart';
+import 'package:time_tracking_app/features/tasks/domain/usecases/fetch_history_tasks.dart';
 import 'package:time_tracking_app/features/tasks/domain/usecases/fetch_task.dart';
 import 'package:time_tracking_app/features/tasks/domain/usecases/fetch_tasks.dart';
 import 'package:time_tracking_app/features/tasks/domain/usecases/task_timer.dart';
@@ -27,6 +28,8 @@ class MockTaskTimer extends Mock implements TaskTimer {}
 class MockCloseOpenTask extends Mock implements CloseOpenTask {}
 
 class MockUpdateTaskStatus extends Mock implements UpdateTaskStatus {}
+
+class MockFetchHistoryTasks extends Mock implements FetchHistoryTasks {}
 
 // Test data
 const testTaskId = 'task-123';
@@ -57,6 +60,7 @@ void main() {
   late MockTaskTimer mockTaskTimer;
   late MockUpdateTaskStatus mockUpdateTaskStatus;
   late MockCloseOpenTask mockCloseOpenTask;
+  late MockFetchHistoryTasks mockFetchHistoryTasks;
   late TaskBloc taskBloc;
 
   setUp(() {
@@ -67,6 +71,7 @@ void main() {
     mockTaskTimer = MockTaskTimer();
     mockUpdateTaskStatus = MockUpdateTaskStatus();
     mockCloseOpenTask = MockCloseOpenTask();
+    mockFetchHistoryTasks = MockFetchHistoryTasks();
 
     taskBloc = TaskBloc(
       getTasks: mockFetchTasks,
@@ -76,6 +81,7 @@ void main() {
       taskTimer: mockTaskTimer,
       updateTaskStatus: mockUpdateTaskStatus,
       closeOpenTask: mockCloseOpenTask,
+      getHistoryTasks: mockFetchHistoryTasks,
     );
   });
 
@@ -98,7 +104,7 @@ void main() {
           return taskBloc;
         },
         act: (bloc) => bloc.add(const LoadTasksEvent()),
-        expect: () => [const TaskLoading(), TasksLoaded(testTasks)],
+        expect: () => [const TasksLoading(), TasksLoaded(testTasks)],
         verify: (_) {
           verify(() => mockFetchTasks()).called(1);
           expect(taskBloc.cachedTasks, equals(testTasks));
@@ -114,7 +120,7 @@ void main() {
           return taskBloc;
         },
         act: (bloc) => bloc.add(const LoadTasksEvent()),
-        expect: () => [const TaskLoading(), const TaskError(testErrorMessage)],
+        expect: () => [const TasksLoading(), const TaskError(testErrorMessage)],
         verify: (_) {
           verify(() => mockFetchTasks()).called(1);
         },

@@ -29,17 +29,9 @@ class TaskRepositoryImpl implements TaskRepository {
   }
 
   @override
-  Future<Either<Failure, List<TaskModel>>> fetchTasks({
-    bool isHistory = false,
-  }) async {
+  Future<Either<Failure, List<TaskModel>>> fetchTasks() async {
     try {
-      List<TaskModel> allTasks;
-      if (isHistory) {
-        allTasks = await localDataSource.getHistoryTasks();
-      } else {
-        allTasks = await remoteDataSource.getTasks();
-      }
-
+      List<TaskModel> allTasks = await remoteDataSource.getTasks();
       final tasks = <TaskModel>[];
       for (var remoteTask in allTasks) {
         final status = await localDataSource.getTaskStatus(remoteTask.id);
@@ -109,6 +101,21 @@ class TaskRepositoryImpl implements TaskRepository {
         await localDataSource.removeHistoryTask(tk.id);
       }
       return Right(null);
+    } catch (e) {
+      return Left(ServerFailure('Unexpected error: $e'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Task>>> fetchHistoryTasks() async {
+    try {
+      List<TaskModel> allTasks = await localDataSource.getHistoryTasks();
+      final tasks = <TaskModel>[];
+      for (var remoteTask in allTasks) {
+        final status = await localDataSource.getTaskStatus(remoteTask.id);
+        tasks.add(remoteTask.copyWith(status: status ?? remoteTask.status));
+      }
+      return Right(tasks);
     } catch (e) {
       return Left(ServerFailure('Unexpected error: $e'));
     }
