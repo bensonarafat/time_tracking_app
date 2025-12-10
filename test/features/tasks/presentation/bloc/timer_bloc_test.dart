@@ -6,6 +6,7 @@ import 'package:time_tracking_app/core/errors/failures.dart';
 import 'package:time_tracking_app/features/tasks/domain/entities/timer_tracker.dart';
 import 'package:time_tracking_app/features/tasks/domain/usecases/fetch_timer.dart';
 import 'package:time_tracking_app/features/tasks/domain/usecases/task_timer.dart';
+import 'package:time_tracking_app/features/tasks/presentation/bloc/timer/timer_bloc.dart';
 
 class MockTaskTimer extends Mock implements TaskTimer {}
 
