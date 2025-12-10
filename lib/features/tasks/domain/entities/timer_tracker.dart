@@ -13,6 +13,14 @@ class TimerTracker extends Equatable {
     this.isTimerRunning = false,
   });
 
+  Duration get currentTimeSpent {
+    if (timerStartedAt == null) {
+      return timeSpent;
+    }
+    final runningTime = DateTime.now().difference(timerStartedAt!);
+    return timeSpent + runningTime;
+  }
+
   TimerTracker copyWith({
     String? taskId,
     DateTime? timerStartedAt,
