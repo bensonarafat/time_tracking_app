@@ -4,6 +4,10 @@ This project follows clean architecture with a clear separation of concerns acro
 ## Technologies 
  - Flutter: For building the mobile application 
  - Dart: The programming language used with Flutter 
+### Tools 
+ - Flutter Bloc: State management 
+ - Go router: App navigation and routing 
+ - GetIt: Dependency injection for clean architecture. 
 
 ### Domain Layer
 Core business logic 
@@ -22,8 +26,7 @@ Data Sources & implementation
 
 I also wrote Unit tests for the Repository Interfaces, ApiClient, Repository Implementations, and Blocs. all tests will be found in the test folder.
 
-
-## My approach to handle functions without API
+## My Logic and approach to handle functions without API
 <b>Task Status</b> <br/>  The API did not include a status field for tasks.
 To handle this, whenever a task is moved to a new status, I create or update that task locally with the new status.
 During subsequent remote fetches, I merge the remote task data with the locally stored status so the UI always reflects the correct state.
@@ -33,7 +36,6 @@ During subsequent remote fetches, I merge the remote task data with the locally 
 <b>Timer</b>: <br/> Timer data (elapsed time, taskId, and start time) is stored locally, since the API does not support timer-related endpoints.
 This ensures that timing information persists across sessions and can be restored reliably.
 
-### My Logic 
 Using Clean Architecture + Bloc was an excellent fit for this project because it enforces strict separation of concerns.
 Each feature is isolated, meaning changes in the comment logic do not affect the task or timer business logic, and vice-versa. This improves maintainability, scalability, and readability throughout the codebase.
 
@@ -80,5 +82,5 @@ Runs on every push to main and pull requests
 ### Final note 
 
 Building this project was both fun and insightful.
-The detailed API documentation made the workflow smooth, and applying Clean Architecture added structure and clarity.
+The Todoist API documentation provided clarity throughout the integration process, and applying Clean Architecture ensured a well-structured, testable, and maintainable codebase.
 I’m eager to hear your feedback!
