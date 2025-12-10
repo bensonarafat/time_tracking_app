@@ -68,16 +68,30 @@ flutter run --dart-define=TODOIST_API_TOKEN=API_KEYHERE
 | <img src="https://github.com/bensonarafat/time_tracking_app/blob/main/gifs/kanban.gif?raw=true" width="150"/> <br/> Kanban | <img src="https://github.com/bensonarafat/time_tracking_app/blob/main/gifs/add_new.gif?raw=true" width="150"/> <br/> Create Task | <img src="https://github.com/bensonarafat/time_tracking_app/blob/main/gifs/drag.gif?raw=true" width="150"/> <br/> Drag and Drop |
 | <img src="https://github.com/bensonarafat/time_tracking_app/blob/main/gifs/comment.gif?raw=true" width="150"/> <br/> Comment | <img src="https://github.com/bensonarafat/time_tracking_app/blob/main/gifs/timer.gif?raw=true" width="150"/> <br/> Timer | <img src="https://github.com/bensonarafat/time_tracking_app/blob/main/gifs/history.gif?raw=true" width="150"/> <br/> History |
 
-### CI
+### CI/CD
 The project includes Github actions for automated testing and building: 
-Continuous Integration (.github/workflows/ci.yml)
+**Continuous Integration (.github/workflows/ci.yml)**
 Runs on every push to main and pull requests
-
  - Executes:
-
    - Code formatting check
    - Static analysis
    - Unit tests with coverage
+
+## Future Enhancements 
+
+- **Continuous Deployment (Planned)**
+Future enhancements will include automated deployment pipelines
+- **Error Handling & Monitoring** 
+Currently, i only handle ServerException to save time but on a productive app, other errors can be handled as well; errors like: 
+   - **Network Error** - Internet connections 
+   - **Cache Error** - Local storage
+   - **Timeout Error** - network request takes longer. etc.
+
+
+### Note test coverage is up to 40%
+On viewing the the test coverage, you will notice the coverage is up to 40%. However crucial parts of the codebase base been tested. Also how important is Integration test, no Integration test was written as it takes a lot of effort time write.
+
+
 
 ### Final note 
 
