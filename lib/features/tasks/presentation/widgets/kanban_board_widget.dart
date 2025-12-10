@@ -1,10 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 import '../../domain/entities/task.dart';
 import '../../domain/entities/task_status.dart';
-import 'task_timer_widget.dart';
+import '../widgets/task_timer_widget.dart';
+import 'task_input_field.dart';
 
 class KanbanBoardWidget extends StatefulWidget {
   final List<Task> tasks;
@@ -28,16 +27,14 @@ class _KanbanBoardWidgetState extends State<KanbanBoardWidget> {
   List<TaskStatus> statues = TaskStatus.values;
 
   TaskStatus? _addingForStatus;
-  final TextEditingController _addTaskController = TextEditingController();
-  final FocusNode _addTaskFocusNode = FocusNode();
-
-  List<Task> _getTasksByStatus(TaskStatus status) {
-    return widget.tasks.where((task) => task.status == status).toList();
-  }
 
   final Map<TaskStatus, bool> _dragOverState = {
     for (var status in TaskStatus.values) status: false,
   };
+
+  List<Task> _getTasksByStatus(TaskStatus status) {
+    return widget.tasks.where((task) => task.status == status).toList();
+  }
 
   void _onDragAccept(Task task, TaskStatus status) {
     if (task.status != status) {
@@ -65,10 +62,6 @@ class _KanbanBoardWidgetState extends State<KanbanBoardWidget> {
   void _startAddingTask(TaskStatus status) {
     setState(() {
       _addingForStatus = status;
-      _addTaskController.clear();
-    });
-    Future.delayed(const Duration(milliseconds: 50), () {
-      _addTaskFocusNode.requestFocus();
     });
   }
 
@@ -76,13 +69,10 @@ class _KanbanBoardWidgetState extends State<KanbanBoardWidget> {
     setState(() {
       _addingForStatus = null;
     });
-    _addTaskController.clear();
-    _addTaskFocusNode.unfocus();
   }
 
-  void _submitNewTask() {
-    final content = _addTaskController.text.trim();
-    if (content.isNotEmpty && _addingForStatus != null) {
+  void _submitNewTask(String content) {
+    if (content.isNotEmpty) {
       widget.onAddTask(content);
       _cancelAddingTask();
     }
@@ -91,8 +81,6 @@ class _KanbanBoardWidgetState extends State<KanbanBoardWidget> {
   @override
   void dispose() {
     _horizontalScrollController.dispose();
-    _addTaskController.dispose();
-    _addTaskFocusNode.dispose();
     super.dispose();
   }
 
@@ -220,7 +208,17 @@ class _KanbanBoardWidgetState extends State<KanbanBoardWidget> {
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
-                        if (isAdding) _buildAddTaskInput(),
+                        if (isAdding)
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: TaskInputField(
+                              hintText: 'Enter task content...',
+                              submitButtonText: 'Add Task',
+                              cancelButtonText: 'Cancel',
+                              onSubmit: _submitNewTask,
+                              onCancel: _cancelAddingTask,
+                            ),
+                          ),
                         Expanded(
                           child: tasks.isEmpty
                               ? Center(
@@ -248,74 +246,6 @@ class _KanbanBoardWidgetState extends State<KanbanBoardWidget> {
             ),
           );
         },
-      ),
-    );
-  }
-
-  Widget _buildAddTaskInput() {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: Colors.blue.withValues(alpha: 0.3)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextField(
-            controller: _addTaskController,
-            focusNode: _addTaskFocusNode,
-            autofocus: true,
-            maxLines: 2,
-            minLines: 1,
-            style: const TextStyle(fontSize: 14),
-            decoration: const InputDecoration(
-              hintText: 'Enter task content...',
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.zero,
-              isDense: true,
-            ),
-            onSubmitted: (_) => _submitNewTask(),
-          ),
-          const SizedBox(height: 8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              TextButton(
-                onPressed: _cancelAddingTask,
-                style: TextButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 4,
-                  ),
-                ),
-                child: const Text(
-                  'Cancel',
-                  style: TextStyle(color: Colors.grey),
-                ),
-              ),
-              const SizedBox(width: 8),
-              ElevatedButton(
-                onPressed: _submitNewTask,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 4,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                ),
-                child: const Text(
-                  'Add Task',
-                  style: TextStyle(color: Colors.white, fontSize: 12),
-                ),
-              ),
-            ],
-          ),
-        ],
       ),
     );
   }
