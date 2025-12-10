@@ -1,0 +1,26 @@
+import 'package:get_it/get_it.dart';
+import 'package:hive/hive.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import '../features/tasks/data/datasources/task_local_data_source.dart';
+import '../features/tasks/data/datasources/task_remote_data_source.dart';
+import '../features/tasks/data/repositories/comment_repository_impl.dart';
+import '../features/tasks/data/repositories/task_repository_impl.dart';
+import '../features/tasks/data/repositories/time_tracker_repository_impl.dart';
+import '../features/tasks/domain/repositories/comment_repository.dart';
+import '../features/tasks/domain/repositories/task_repository.dart';
+import '../features/tasks/domain/repositories/timer_tracker_repository.dart';
+import '../features/tasks/domain/usecases/create_comment.dart';
+import '../features/tasks/domain/usecases/create_task.dart';
+import '../features/tasks/domain/usecases/edit_task.dart';
+import '../features/tasks/domain/usecases/fetch_comments.dart';
+import '../features/tasks/domain/usecases/fetch_task.dart';
+import '../features/tasks/domain/usecases/fetch_tasks.dart';
+import '../features/tasks/domain/usecases/fetch_timer.dart';
+import '../features/tasks/domain/usecases/task_timer.dart';
+import '../features/tasks/domain/usecases/update_task_status.dart';
+import '../features/tasks/presentation/bloc/comment/comment_bloc.dart';
+import '../features/tasks/presentation/bloc/task/task_bloc.dart';
+import '../features/tasks/presentation/bloc/timer/timer_bloc.dart';
+
+part 'init_dependencies.main.dart';
