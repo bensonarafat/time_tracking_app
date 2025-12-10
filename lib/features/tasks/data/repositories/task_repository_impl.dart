@@ -1,6 +1,5 @@
 import 'package:fpdart/fpdart.dart' hide Task;
 
-import '../../../../core/errors/exceptions.dart';
 import '../../../../core/errors/failures.dart';
 import '../../domain/entities/task.dart';
 import '../../domain/entities/task_status.dart';
@@ -48,8 +47,6 @@ class TaskRepositoryImpl implements TaskRepository {
       }
 
       return Right(tasks);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
     } catch (e) {
       return Left(ServerFailure('Unexpected error: $e'));
     }

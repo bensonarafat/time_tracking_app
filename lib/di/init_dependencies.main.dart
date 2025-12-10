@@ -21,14 +21,17 @@ Future<void> initDependencies() async {
 void _initHive() {
   serviceLocator.registerLazySingleton<Box<Map<String, dynamic>>>(
     () => Hive.box<Map<String, dynamic>>(name: "history"),
+    instanceName: "historyBox",
   );
 
   serviceLocator.registerLazySingleton<Box<String>>(
     () => Hive.box<String>(name: "task_status"),
+    instanceName: "taskStatusBox",
   );
 
   serviceLocator.registerLazySingleton<Box<Map<String, dynamic>>>(
     () => Hive.box<Map<String, dynamic>>(name: "timer_state"),
+    instanceName: "timerStateBox",
   );
 }
 
@@ -102,9 +105,13 @@ void _initDataSources() {
 
   serviceLocator.registerLazySingleton<TaskLocalDataSource>(
     () => TaskLocalDataSourceImpl(
-      taskStatusBox: serviceLocator(),
-      timerStateBox: serviceLocator(),
-      historyBox: serviceLocator(),
+      taskStatusBox: serviceLocator<Box<String>>(instanceName: "taskStatusBox"),
+      timerStateBox: serviceLocator<Box<Map<String, dynamic>>>(
+        instanceName: "timerStateBox",
+      ),
+      historyBox: serviceLocator<Box<Map<String, dynamic>>>(
+        instanceName: "historyBox",
+      ),
     ),
   );
 }

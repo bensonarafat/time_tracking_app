@@ -18,6 +18,9 @@ class TaskModel extends Task {
       status: TaskStatus.todo,
       createdAt: DateTime.parse(json['created_at']),
       isCompleted: json['is_completed'],
+      dateCompleted: json['date_completed'] != null
+          ? DateTime.parse(json['date_completed'])
+          : null,
     );
   }
 
@@ -26,9 +29,9 @@ class TaskModel extends Task {
       'id': id,
       'content': content,
       'status': status.name,
-      'createdAt': createdAt.toIso8601String(),
-      'isCompleted': isCompleted,
-      'dateCompleted': dateCompleted?.toIso8601String(),
+      'created_at': createdAt.toIso8601String(),
+      'is_completed': isCompleted,
+      'date_completed': dateCompleted?.toIso8601String(),
     };
   }
 

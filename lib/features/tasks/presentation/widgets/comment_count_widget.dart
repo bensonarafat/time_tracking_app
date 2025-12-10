@@ -21,10 +21,19 @@ class _CommentCountWidgetState extends State<CommentCountWidget> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CommentBloc, CommentState>(
+      buildWhen: (previous, current) {
+        if (current is CommentsLoaded) {
+          return current.taskId == widget.taskId;
+        }
+        if (current is CommentsLoading) {
+          return current.taskId == widget.taskId;
+        }
+        return false;
+      },
       builder: (context, state) {
         int commentCount = 0;
 
-        if (state is CommentsLoaded) {
+        if (state is CommentsLoaded && state.taskId == widget.taskId) {
           commentCount = state.comments.length;
         }
         return Row(
